@@ -1,8 +1,6 @@
 """Compare three Fast-model outputs for the expanded contextual corpus.
-
-Retain raw four-way labels and map Mixed to Neutral / Descriptive.
-Mark a valid null orientation as a Fast abstention; the Slow input script
-excludes abstentions before adjudicating disagreements.
+- Retain raw four-way labels and map Mixed to Neutral / Descriptive.
+- Mark a valid null orientation as a Fast abstention; the Slow input script excludes abstentions before adjudicating disagreements.
 """
 
 from __future__ import annotations
