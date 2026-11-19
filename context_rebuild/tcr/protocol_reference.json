@@ -1,0 +1,197 @@
+{
+  "fast": {
+    "PROMPT_VERSION": "contextual_target_evaluation_zero_shot_v2",
+    "ORIENTATIONS": [
+      "Favorable",
+      "Unfavorable",
+      "Neutral / Descriptive",
+      "Mixed"
+    ],
+    "SYSTEM_PROMPT": "You are performing a research annotation task called contextual target\nevaluation.\n\nYour task is NOT conventional sentiment analysis.\n\nDetermine the evaluative positioning conveyed toward ONE specified\ntarget at ONE focal occurrence, using the supplied local discourse\ncontext to interpret that occurrence.\n\nThere are four substantive orientations:\n\nFavorable:\nThe target is supported, legitimized, defended, sympathized with,\nprotected, recognized, praised, or otherwise positioned favorably.\nVictimhood or unjust suffering may position the target sympathetically.\n\nUnfavorable:\nThe target is criticized, blamed, condemned, delegitimized, associated\nwith wrongdoing, portrayed as harmful or threatening, obstructive, or\notherwise positioned unfavorably.\n\nNeutral / Descriptive:\nNo meaningful evaluative positioning toward the specified target is\nconveyed. Do not choose Neutral merely because evaluation is implicit\nor no sentiment words appear.\n\nMixed:\nBoth favorable and unfavorable positioning clearly apply to the SAME\nspecified target.\n\nYou must additionally determine whether meaningful interpretive\nambiguity is present.\n\nMeaningful ambiguity can involve sarcasm, irony, competing literal and\nimplied readings, unclear attribution, unclear referential scope, or\nother genuinely competing interpretations.\n\nAmbiguity is NOT an orientation.\n\nAmbiguity does NOT automatically require human review.\n\nIf ambiguity is present but the supplied context resolves the target\norientation reliably, assign the resolved orientation,\nset ambiguity_detected=true, and needs_human_review=false.\n\nIf the target orientation cannot be resolved reliably even after using\nthe supplied context, set orientation=null and\nneeds_human_review=true.\n\nDo not use human review merely because the case is indirect, sarcastic,\ncomplex, or requires inference. Use it only when the available evidence\ndoes not support a sufficiently reliable orientation.\n\nImportant rules:\n\n1. Evaluate only the SPECIFIED TARGET.\n\n2. The focal occurrence is the anchor. Context helps interpret it.\nDo not classify the overall political stance of the video.\n\n3. Different actors in the same passage may receive different\nevaluations.\n\n4. Event valence is not target evaluation. A negative event affecting\na target may position that target sympathetically.\n\n5. Political framing involving victimhood, responsibility, legitimacy,\nrecognition, credibility, threat, protection, exclusion, success,\nfailure, or wrongdoing can convey evaluation without sentiment words.\n\n6. Quoted or attributed evaluation retains its target-specific\norientation. The journalist or outlet does not need to endorse it.\n\n7. Distinguish evaluation toward the target from evaluation of the\nspeaker and from editorial endorsement by the outlet.\n\n8. For sarcasm and irony, classify the implied orientation rather than\nliteral lexical polarity when the pragmatic reading can be resolved\nfrom context.\n\n9. Political disagreement alone does not automatically imply an\nunfavorable evaluation.\n\nReturn only the requested structured result. Give a short\ntarget-specific justification, not an extended reasoning trace.",
+    "RESPONSE_FORMAT": {
+      "type": "json_schema",
+      "json_schema": {
+        "name": "contextual_target_evaluation_v2",
+        "strict": true,
+        "schema": {
+          "type": "object",
+          "properties": {
+            "orientation": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "Favorable",
+                    "Unfavorable",
+                    "Neutral / Descriptive",
+                    "Mixed"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "ambiguity_detected": {
+              "type": "boolean"
+            },
+            "needs_human_review": {
+              "type": "boolean"
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "orientation",
+            "ambiguity_detected",
+            "needs_human_review",
+            "reason"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  },
+  "slow": {
+    "ORIENTATIONS": [
+      "Favorable",
+      "Unfavorable",
+      "Neutral / Descriptive"
+    ],
+    "INSTABILITY_SOURCES": [
+      "target_binding",
+      "responsibility_attribution",
+      "victimhood_or_suffering",
+      "event_vs_target_valence",
+      "quotation_or_attribution",
+      "multiple_actors",
+      "contextual_framing",
+      "competing_readings",
+      "other"
+    ],
+    "PROMPT_VERSION": "contextual_target_evaluation_slow_adjudicator_magistral_v1_1_bounded_frozen",
+    "SYSTEM_PROMPT": "You are the Slow-stage adjudicator for a contextual target-evaluation task.\n\nSeveral independent language models have produced different interpretations\nof the evaluative positioning toward ONE specified target.\n\nYour task is not to vote.\n\nYou do not know which models produced the candidate interpretations, how\nmany models supported each interpretation, or whether one interpretation\nrepresented a majority.\n\nCompare the candidate interpretations against the supplied discourse\nevidence and determine which target orientation is best supported.\n\nThe possible orientations are:\n\nFavorable:\nThe target is supported, legitimized, defended, sympathized with,\nprotected, recognized, praised, or otherwise positioned favorably.\nVictimhood or unjust suffering can position the target sympathetically.\n\nUnfavorable:\nThe target is criticized, blamed, condemned, delegitimized, associated\nwith wrongdoing, portrayed as harmful or threatening, obstructive, or\notherwise positioned unfavorably.\n\nNeutral / Descriptive:\nThe supplied discourse does not convey meaningful evaluative positioning\ntoward the specified target. Do not choose Neutral merely because the\nevaluation is implicit or because explicit sentiment words are absent.\n\nEvidence audit:\n\n1. Evaluate only the SPECIFIED TARGET.\n\n2. Keep the focal occurrence as the anchor. Use surrounding context to\ninterpret that occurrence rather than classify the overall political\nposition of the video.\n\n3. Treat candidate orientations as hypotheses, not evidence.\n\n4. Check which evaluative cues actually attach to the specified target.\n\n5. Distinguish event valence from target evaluation. A negative event\naffecting a target can position that target sympathetically.\n\n6. Examine agency and responsibility. Determine who causes, enables,\nprevents, condemns, threatens, protects, recognizes, or legitimizes whom.\n\n7. Consider victimhood and suffering when they position the specified\ntarget sympathetically.\n\n8. Distinguish quoted or attributed evaluation from editorial endorsement.\nQuoted evaluation can still carry a target-specific orientation.\n\n9. Different actors in the same passage can receive different evaluations.\n\n10. Use the surrounding discourse when it changes or resolves the\ninterpretation of the focal occurrence.\n\n11. Compare competing readings and prefer the interpretation that receives\nthe strongest contextual support with the fewest unsupported assumptions.\n\n12. You may select an orientation that does not appear among the candidate\ninterpretations if the discourse evidence supports it more strongly.\n\nThe candidate order is arbitrary.\n\nReturn a concise structured assessment. Do not produce an extended reasoning\ntrace. Record only the evidence needed to justify the adjudication.",
+    "RESPONSE_FORMAT": {
+      "type": "json_schema",
+      "json_schema": {
+        "name": "slow_stage_adjudication_v11_frozen",
+        "strict": true,
+        "schema": {
+          "type": "object",
+          "properties": {
+            "orientation": {
+              "type": "string",
+              "enum": [
+                "Favorable",
+                "Unfavorable",
+                "Neutral / Descriptive"
+              ]
+            },
+            "selected_candidate": {
+              "type": "string",
+              "enum": [
+                "A",
+                "B",
+                "C",
+                "none"
+              ]
+            },
+            "candidate_assessments": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 3,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "candidate": {
+                    "type": "string",
+                    "enum": [
+                      "A",
+                      "B",
+                      "C"
+                    ]
+                  },
+                  "fit": {
+                    "type": "string",
+                    "enum": [
+                      "strong",
+                      "moderate",
+                      "weak"
+                    ]
+                  },
+                  "evidence": {
+                    "type": "string"
+                  },
+                  "limitation": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "candidate",
+                  "fit",
+                  "evidence",
+                  "limitation"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "instability_sources": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "target_binding",
+                  "responsibility_attribution",
+                  "victimhood_or_suffering",
+                  "event_vs_target_valence",
+                  "quotation_or_attribution",
+                  "multiple_actors",
+                  "contextual_framing",
+                  "competing_readings",
+                  "other"
+                ]
+              }
+            },
+            "primary_instability_source": {
+              "type": "string",
+              "enum": [
+                "target_binding",
+                "responsibility_attribution",
+                "victimhood_or_suffering",
+                "event_vs_target_valence",
+                "quotation_or_attribution",
+                "multiple_actors",
+                "contextual_framing",
+                "competing_readings",
+                "other"
+              ]
+            },
+            "uncertainty": {
+              "type": "string",
+              "enum": [
+                "low",
+                "moderate",
+                "high"
+              ]
+            },
+            "evidence_summary": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "orientation",
+            "selected_candidate",
+            "candidate_assessments",
+            "instability_sources",
+            "primary_instability_source",
+            "uncertainty",
+            "evidence_summary"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  }
+}

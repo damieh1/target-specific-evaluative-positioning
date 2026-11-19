@@ -1,0 +1,67 @@
+{
+  "lexicon": "core_lexicon_mapping.csv",
+  "start_date": "2023-10-07",
+  "end_date": "2025-12-31",
+  "context_radius": 4,
+  "tsv_unit": "milliseconds",
+  "accept_english_lists": true,
+  "eligibility_overrides": null,
+  "transcript_choices": null,
+  "transcript_roots": [
+    {
+      "outlet": "abcnewsaus",
+      "path": "../data/transcripts/ABC"
+    },
+    {
+      "outlet": "aljazeeraenglish",
+      "path": "../data/transcripts/AJ"
+    },
+    {
+      "outlet": "bbcnews",
+      "path": "../data/transcripts/BBC"
+    },
+    {
+      "outlet": "cbcnews",
+      "path": "../data/transcripts/CBC"
+    },
+    {
+      "outlet": "dwnews",
+      "path": "../data/transcripts/DW"
+    },
+    {
+      "outlet": "rtenews",
+      "path": "../data/transcripts/RTE"
+    },
+    {
+      "outlet": "thenationalnews",
+      "path": "../data/transcripts/NAT"
+    },
+    {
+      "outlet": "trtworld",
+      "path": "../data/transcripts/TRT"
+    }
+  ],
+  "audit_sources": [
+    {
+      "glob": "../data/**/*language_audit*.csv",
+      "decision_column": "keep_english_only",
+      "required": true
+    }
+  ],
+  "english_lists": [
+    {
+      "glob": "../data/**/*english_only_list.txt",
+      "required": false
+    }
+  ],
+  "metadata_sources": [
+    {
+      "glob": "../data/metadata/metadata_current_unique.csv",
+      "required": true
+    },
+    {
+      "glob": "../data/metadata/discovery_metadata*.csv",
+      "required": false
+    }
+  ]
+}

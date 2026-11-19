@@ -1,0 +1,37 @@
+{
+  "source_instances": 22541,
+  "evaluable_instances": 22540,
+  "fast_unanimous": 17000,
+  "slow_adjudicated": 5540,
+  "fast_incomplete_excluded": 1,
+  "slow_partial_outputs_recovered": 6,
+  "final_label_counts": {
+    "Unfavorable": 14010,
+    "Favorable": 6414,
+    "Neutral / Descriptive": 2116
+  },
+  "inputs": {
+    "contexts": {
+      "path": "contexts.csv",
+      "sha256": "d0aad26820225bd3a8a023ccd2a72a77262ec5cc39285c3aa9686c0885f2e86b"
+    },
+    "fast": {
+      "path": "fast_agreement_full_22541.csv",
+      "sha256": "00e28fbbce58bbfd294a0f9d2fd4a664d7b596b1e59ba6a1ba9d1c4164d5c666"
+    },
+    "slow": {
+      "path": "slow_stage_magistral_v12_5540_FINAL.csv",
+      "sha256": "993b2bf82e3ff765518a82fa30b7d796d696d01e457896960da2a642f3c976f8"
+    }
+  },
+  "outputs": {
+    "evaluable": {
+      "path": "fast_slow_evaluable.csv",
+      "sha256": "5328624bd412fb34fc988098adff06d604a9b56dfcb29c8a7654d51b19120c5a"
+    },
+    "excluded": {
+      "path": "fast_incomplete_excluded.csv",
+      "sha256": "e4dc6868216be302d1e6f90392962943a7c1e727acdca5a502f10c074753557f"
+    }
+  }
+}
