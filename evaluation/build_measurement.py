@@ -1,9 +1,6 @@
 """ With this script, we verify the final Fast--Slow measurement dataset.
-
-The script derives routing from the three normalized Fast labels, retains
-unanimous Fast classifications, substitutes Slow adjudications for Fast
-disagreements, and archives incomplete Fast rows.  An optional expert-reference
-audit tests whether previously annotated target-conditioned inputs are unchanged.
+- The script derives routing from the three normalized Fast labels, retains unanimous Fast classifications, substitutes Slow adjudications for Fast disagreements, and archives incomplete Fast rows.  
+- An optional expert-reference audit tests whether previously annotated target-conditioned inputs are unchanged.
 """
 
 from __future__ import annotations
