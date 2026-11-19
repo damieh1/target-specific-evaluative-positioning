@@ -2,7 +2,8 @@
 
 This repository contains the code we use to examine target-conditioned evaluative positioning in international news coverage on TikTok. We build contextual inputs from English-language transcripts and video descriptions, parse the focal sentences with SuPar, and classify the positioning of individual targets using three Fast models and a Slow adjudicator.
 
-The scripts cover the expanded September 2026 measurement run and the subsequent statistical analysis. The final measurement contains 22,540 evaluable target occurrences across 3,955 videos from eight news outlets. The source dataset contains 22,541 occurrences; we excluded one unresolved Fast abstention. We retained 17,000 unanimous Fast classifications and adjudicated 5,540 disagreements.
+The scripts cover measurement and the subsequent statistical analysis. The final measurement contains **22,540** evaluable target occurrences across 3,955 videos from eight news outlets. 
+The source dataset contains *22,541* occurrences; we excluded one unresolved Fast abstention. We retained 17,000 unanimous Fast classifications and adjudicated 5,540 disagreements.
 
 ## Repository
 
