@@ -39,4 +39,4 @@ This directory also retains an integrated inference workflow from the rebuild im
 
 To use the integrated workflow independently, serve the corresponding model and run `pipeline.py infer --help`. Perform a preflight check (`--preflight-only`) and a limited inference run (`--limit`) before processing the full slot. Run all three Fast slots before `route`, then run the Slow slot before `finalize`. The default output budgets are 400 tokens for Fast and 6,000 for Slow. Use a server context length that accommodates the complete input and output budgets. Keep the deployment ID fixed only for the same actual model deployment.
 
-The integrated workflow writes its own logs, routing tables, and completed and pending occurrence files. It does not silently shorten the contextual evidence or treat incomplete runs as complete. See [PROTOCOL_CHANGES.md](PROTOCOL_CHANGES.md) for the differences from the earlier implementation.
+The integrated workflow writes its own logs, routing tables, and completed and pending occurrence files. It does not silently shorten the contextual evidence or treat incomplete runs as complete.
